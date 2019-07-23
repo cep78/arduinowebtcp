@@ -45,5 +45,19 @@ namespace arduinoweb
             TextBox1.Text = s;
             tcp.Close();
         }
+
+        public void sugeliyor()
+        {
+
+        }
+        public void sugelmiyor()
+        {
+
+        }
+        public void motorcalis(int motorno)
+        {
+
+
+        }
     }
 }
