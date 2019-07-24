@@ -13,7 +13,7 @@ namespace arduinoweb
     public partial class WebForm1 : System.Web.UI.Page
     {
         byte[] readData = new byte[256];
-        string ip = "192.168.1.131";
+        string ip = "192.168.1.141";
         int port = 8888;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,8 +24,8 @@ namespace arduinoweb
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-          
-            TcpClient tcp = new TcpClient(ip,port);
+
+            TcpClient tcp = new TcpClient(ip, port);
             NetworkStream sn = tcp.GetStream();
             StreamWriter sw = new StreamWriter(sn);
             sw.Write("A");
@@ -34,17 +34,20 @@ namespace arduinoweb
             String s = Encoding.ASCII.GetString(readData, 0, recv);
             TextBox1.Text = s;
             tcp.Close();
+            oku(s);
+
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             TcpClient tcp = new TcpClient(ip, port);
             NetworkStream ns = tcp.GetStream();
-         
+
             int recv = ns.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
             String s = Encoding.ASCII.GetString(readData, 0, recv);
             TextBox1.Text = s;
             tcp.Close();
+            oku(s);
         }
 
         public void sugeliyor()
@@ -66,7 +69,41 @@ namespace arduinoweb
             {
                 Label2.Text = "Arıza Meydana Gelmis";
             }
-                   
+
+
+        }
+
+        public void oku(string gelen)
+        {
+            /// SD | 2 | DP | 0 |
+            string[] geneldurum = gelen.Split('|');
+            string sudurum, depodurum;
+
+            for (int i = 0; i < geneldurum.Count(); i++)
+            {
+                if (geneldurum[i]=="SD")
+                {
+                    sudurum = geneldurum[i + 1];
+                    if (sudurum=="1")
+                    {
+                        sugeliyor();
+                    }
+                    else if (sudurum == "2")
+                    {
+                        sugelmiyor();
+                    }
+                    i = i + 2;
+                }
+                else if (geneldurum[i] == "DS")
+                {
+                    depodurum= geneldurum[i + 1];
+                    sugelmiyor();
+                }
+
+            }
+
+
+
 
         }
         public void motorcalis(int motorno)
