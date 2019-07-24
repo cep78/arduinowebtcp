@@ -36,8 +36,10 @@
 </head>
 <body>
     <form id="form1" runat="server">
+ 
+      <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
     <div>
-    
         <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
         <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="height: 26px" Text="Button" />
         <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Button" />
@@ -88,10 +90,10 @@
                                 <asp:Label ID="Label4" runat="server" Text="Label"></asp:Label>
                             </td>
                             <td>
-                                <asp:Button ID="Button3" runat="server" Text="Button" />
+                                <asp:Button ID="Button3" runat="server" Text="Button" OnClick="Button3_Click" />
                             </td>
                             <td>
-                                <asp:Button ID="Button4" runat="server" Text="Button" />
+                                <asp:Button ID="Button4" runat="server" Text="Button" OnClick="Button4_Click" />
                             </td>
                         </tr>
                         <tr>
@@ -133,6 +135,14 @@
         </table>
     
     </div>
+      
+                <asp:Label ID="Label7" runat="server" Text="Label"></asp:Label>
+                <asp:Timer ID="Timer1" runat="server" Interval="1000" OnTick="Timer1_Tick">
+                </asp:Timer>
+                <asp:ScriptManager ID="ScriptManager1" runat="server">
+                </asp:ScriptManager>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </form>
 </body>
 </html>
