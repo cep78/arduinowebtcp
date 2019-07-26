@@ -147,7 +147,26 @@ namespace arduinoweb
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
-            Label7.Text = DateTime.Now.ToString();
+            try
+            {
+                Label7.Text = DateTime.Now.ToString();
+                TcpClient tcp = new TcpClient(ip, port);
+                NetworkStream sn = tcp.GetStream();
+                StreamWriter sw = new StreamWriter(sn);
+                sw.Write("A");
+                sw.Flush();
+                int recv = sn.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
+                String s = Encoding.ASCII.GetString(readData, 0, recv);
+                TextBox1.Text = s;
+                tcp.Close();
+                oku(s);
+            }
+            catch (Exception)
+            {
+
+                 
+            }
+           
         }
 
         protected void Button3_Click(object sender, EventArgs e)
