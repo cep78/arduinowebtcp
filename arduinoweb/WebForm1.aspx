@@ -102,7 +102,7 @@
                                 <asp:Label ID="Label5" runat="server" Text="Label"></asp:Label>
                             </td>
                             <td>
-                                <asp:Button ID="Button5" runat="server" Text="Button" />
+                                <asp:Button ID="Button5" runat="server" Text="Button" OnClick="Button5_Click" />
                             </td>
                             <td>
                                 <asp:Button ID="Button6" runat="server" Text="Button" />

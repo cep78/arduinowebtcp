@@ -13,13 +13,15 @@ namespace arduinoweb
     public partial class WebForm1 : System.Web.UI.Page
     {
         byte[] readData = new byte[256];
-        string ip = "192.168.1.141";
+        string ip = "192.168.1.41";
         int port = 8888;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             int gelen = 8;
             string gel = Convert.ToString(gelen, 2);
+            Timer1.Enabled = true;
+            
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -177,6 +179,22 @@ namespace arduinoweb
         protected void Button4_Click(object sender, EventArgs e)
         {
             Timer1.Enabled = false;
+        }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            Timer1.Enabled = false;
+           
+            TcpClient tcp = new TcpClient(ip, port);
+            NetworkStream sn = tcp.GetStream();
+            StreamWriter sw = new StreamWriter(sn);
+            sw.Write("B");
+            sw.Flush();
+            int recv = sn.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
+            String s = Encoding.ASCII.GetString(readData, 0, recv);
+            TextBox1.Text = s;
+            tcp.Close();
+            Timer1.Enabled = true;
         }
     }
 }
