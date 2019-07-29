@@ -18,6 +18,7 @@ namespace arduinoweb
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //apo
             int gelen = 8;
             string gel = Convert.ToString(gelen, 2);
             Timer1.Enabled = true;
