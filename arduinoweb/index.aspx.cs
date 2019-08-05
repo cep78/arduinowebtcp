@@ -15,7 +15,8 @@ namespace arduinoweb
         byte[] readData = new byte[256];
         string ip = "192.168.1.41";
         int port = 8888;
-
+        int sayac ;
+        int samandiraakim ;
         protected void Page_Load(object sender, EventArgs e)
         {
             int gelen = 8;
@@ -27,17 +28,28 @@ namespace arduinoweb
         protected void Button2_Click(object sender, EventArgs e)
         {
 
+            //TcpClient tcp = new TcpClient(ip, port);
+            //NetworkStream sn = tcp.GetStream();
+            //StreamWriter sw = new StreamWriter(sn);
+            //sw.Write("A");
+            //sw.Flush();
+            //int recv = sn.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
+            //String s = Encoding.ASCII.GetString(readData, 0, recv);
+            //TextBox1.Text = s;
+            //tcp.Close();
+            //oku(s);
+            Timer1.Enabled = false;
+
             TcpClient tcp = new TcpClient(ip, port);
             NetworkStream sn = tcp.GetStream();
             StreamWriter sw = new StreamWriter(sn);
-            sw.Write("A");
+            sw.Write("B");
             sw.Flush();
             int recv = sn.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
             String s = Encoding.ASCII.GetString(readData, 0, recv);
             TextBox1.Text = s;
             tcp.Close();
-            oku(s);
-
+            Timer1.Enabled = true;
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -77,9 +89,9 @@ namespace arduinoweb
 
         public void oku(string gelen)
         {
-            /// SD | 2 | DP | 0 |
+            /// SD | 2 | DP | 0 | SS  | 0 |
             string[] geneldurum = gelen.Split('|');
-            string sudurum, depodurum;
+            string sudurum, depodurum,samandiraakim;
 
             for (int i = 0; i < geneldurum.Count(); i++)
             {
@@ -99,9 +111,22 @@ namespace arduinoweb
                 else if (geneldurum[i] == "DS")
                 {
                     depodurum= geneldurum[i + 1];
-                    sugelmiyor();
+                    //sugelmiyor();
+                  
                 }
+                else if (geneldurum[i] == "SS")
+                {
+                    samandiraakim = geneldurum[i + 1];
+                    try
+                    {
+                        samandiradurumoku(Convert.ToInt32(samandiraakim));
+                    }
+                    catch (Exception)
+                    {
 
+                        
+                    }
+                }
             }
 
 
@@ -183,18 +208,50 @@ namespace arduinoweb
 
         protected void Button5_Click(object sender, EventArgs e)
         {
-            Timer1.Enabled = false;
            
-            TcpClient tcp = new TcpClient(ip, port);
-            NetworkStream sn = tcp.GetStream();
-            StreamWriter sw = new StreamWriter(sn);
-            sw.Write("B");
-            sw.Flush();
-            int recv = sn.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
-            String s = Encoding.ASCII.GetString(readData, 0, recv);
-            TextBox1.Text = s;
-            tcp.Close();
-            Timer1.Enabled = true;
+        }
+        public void samandiradurumoku(int deger)
+        {
+            try
+            {
+                if (Session["sayac"] != null)
+                   sayac = Convert.ToInt32( Session["sayac"].ToString());
+                if (Session["samandiraakim"] != null)
+                    samandiraakim = Convert.ToInt32(Session["samandiraakim"].ToString());
+
+            }
+            catch (Exception)
+            {
+                 
+            }
+            if (sayac<6)
+            {
+                samandiraakim = samandiraakim + deger;
+                sayac++;
+                Session.Add("sayac",sayac);
+                Session.Add("samandiraakim", samandiraakim);
+                Label10.Text = sayac.ToString();
+            }
+            else
+            {
+                sayac = 0;
+                samandiraakim++;
+                Session.Add("sayac", sayac);
+              
+
+                if (samandiraakim/6<3)
+                {
+                    Label8.Text = "Organizeden Su istenmiyor";
+                }
+                else
+                {
+                    Label8.Text = "Depoya Su Lazım";
+                }
+                samandiraakim = 0;
+                Session.Add("samandiraakim", samandiraakim);
+            }
+
+
         }
     }
 }

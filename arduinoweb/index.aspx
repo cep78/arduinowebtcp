@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="arduinoweb.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="arduinoweb.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -42,7 +42,9 @@
     <div>
         <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
         <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="height: 26px" Text="Button" />
-        <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Button" />
+        <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Şamandıra Durum Değiştir" Width="181px" />
+    
+        <asp:Label ID="Label7" runat="server" Text="Label"></asp:Label>
     
         <br />
         <br />
@@ -57,6 +59,11 @@
                 </td>
                 <td class="auto-style3">
                     <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
+                    <br />
+                    <asp:Label ID="Label8" runat="server" Text="Label"></asp:Label>
+                    <br />
+                    <asp:Label ID="Label9" runat="server" Text="Sayac="></asp:Label>
+                    <asp:Label ID="Label10" runat="server" Text="Sayac"></asp:Label>
                 </td>
                 <td class="auto-style3"></td>
             </tr>
@@ -136,7 +143,6 @@
     
     </div>
       
-                <asp:Label ID="Label7" runat="server" Text="Label"></asp:Label>
                 <asp:Timer ID="Timer1" runat="server" Interval="1000" OnTick="Timer1_Tick">
                 </asp:Timer>
                 <asp:ScriptManager ID="ScriptManager1" runat="server">
