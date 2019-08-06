@@ -44,7 +44,9 @@
         <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="height: 26px" Text="Button" />
         <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Şamandıra Durum Değiştir" Width="181px" />
     
-        <asp:Label ID="Label7" runat="server" Text="Label"></asp:Label>
+        <asp:Label ID="Okumasaati" runat="server" Text="Label"></asp:Label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:Label ID="okumadurum" runat="server" Text="Okuma Bekleniyor"></asp:Label>
     
         <br />
         <br />

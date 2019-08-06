@@ -17,11 +17,12 @@ namespace arduinoweb
         int port = 8888;
         int sayac ;
         int samandiraakim ;
+        int susayac;
         protected void Page_Load(object sender, EventArgs e)
         {
             //apo
-            int gelen = 8;
-            string gel = Convert.ToString(gelen, 2);
+            //int gelen = 8;
+            //string gel = Convert.ToString(gelen, 2);
             Timer1.Enabled = true;
             
         }
@@ -177,24 +178,28 @@ namespace arduinoweb
         {
             try
             {
-                Label7.Text = DateTime.Now.ToString();
+                okumadurum.Text = "Bağlanti Bekleniyor";
+                Okumasaati.Text = DateTime.Now.ToString();
                 TcpClient tcp = new TcpClient(ip, port);
                 NetworkStream sn = tcp.GetStream();
                 StreamWriter sw = new StreamWriter(sn);
                 sw.Write("A");
                 sw.Flush();
+                okumadurum.Text = "Bağlanti Sağlandı";
                 int recv = sn.Read(readData, 0, readData.Length);                               //gelen veriyi aldık
                 String s = Encoding.ASCII.GetString(readData, 0, recv);
                 TextBox1.Text = s;
                 tcp.Close();
+                okumadurum.Text = "Okuma Yapildi";
                 oku(s);
             }
             catch (Exception)
             {
+                okumadurum.Text = "Bağlantida Hata Oluştu ";
 
-                 
+
             }
-           
+
         }
 
         protected void Button3_Click(object sender, EventArgs e)
@@ -238,20 +243,40 @@ namespace arduinoweb
                 sayac = 0;
                 samandiraakim++;
                 Session.Add("sayac", sayac);
-              
 
-                if (samandiraakim/6<3)
+
+                if (samandiraakim / 6 < 3)
                 {
                     Label8.Text = "Organizeden Su istenmiyor";
                 }
                 else
                 {
                     Label8.Text = "Depoya Su Lazım";
+                    if (Session["susayac"] != null)
+                        susayac = Convert.ToInt32(Session["susayac"].ToString());
+                    if (Label1.Text == "Organizeden Su Gelmiyor" && susayac<10)
+                    {
+                        susayac++;
+                        Session.Add("susayac", susayac);
+
+                    }
+                    else if (Label1.Text == "Organizeden Su Gelmiyor" && susayac > 10)
+                    {
+                        susayac=0;
+                        Session.Add("susayac", susayac);
+                        mesajat("");
+
+                    }
                 }
                 samandiraakim = 0;
                 Session.Add("samandiraakim", samandiraakim);
             }
 
+
+        }
+
+        public void mesajat(string link)
+        {
 
         }
     }
